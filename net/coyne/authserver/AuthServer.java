@@ -21,6 +21,17 @@ public class AuthServer
 {
  
     private static Socket socket;
+    private static String loggerFormat = null;
+    
+    /**
+    *
+    * Return the prefix in the form of a string of the logger.
+    * @return Logger Format as String
+    */
+    
+    public static String getLoggerFormat() {
+        return loggerFormat;
+    }
  
     public static void main(String[] args)
     {
@@ -30,10 +41,9 @@ public class AuthServer
             ServerSocket serverSocket = new ServerSocket(port);
             System.out.println(">> Tidal Services started on 127.0.0.1:" + port);
  
-            //Server is running always. This is done using this while(true) loop
             while(true)
             {
-            	String loggerFormat = "[" + Calendar.getInstance().get(Calendar.MONTH) + "/" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + Calendar.getInstance().get(Calendar.YEAR) + "] @ " + Calendar.getInstance().get(Calendar.HOUR) + ":" + Calendar.getInstance().get(Calendar.MINUTE) + ":" + Calendar.getInstance().get(Calendar.SECOND);
+            	loggerFormat = "[" + Calendar.getInstance().get(Calendar.MONTH) + "/" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + Calendar.getInstance().get(Calendar.YEAR) + "] @ " + Calendar.getInstance().get(Calendar.HOUR) + ":" + Calendar.getInstance().get(Calendar.MINUTE) + ":" + Calendar.getInstance().get(Calendar.SECOND);
                 if (Calendar.getInstance().get(Calendar.MONTH) == 0) {
                 	loggerFormat = "[" + 1 + "/" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + Calendar.getInstance().get(Calendar.YEAR) + "] @ " + Calendar.getInstance().get(Calendar.HOUR) + ":" + Calendar.getInstance().get(Calendar.MINUTE) + ":" + Calendar.getInstance().get(Calendar.SECOND);
                 }
@@ -46,7 +56,6 @@ public class AuthServer
                 String number = br.readLine();
                 System.out.println( loggerFormat + " [INFO] " + "Received packet request from " + socket.getInetAddress() + ":" + socket.getPort() + ", processing..." );
  
-                //Multiplying the number by 2 and forming the return message
                 String returnMessage = "0";
                 try
                 {	
@@ -62,7 +71,6 @@ public class AuthServer
                 	returnMessage = "-1";
                 }
  
-                //Sending the response back to the client.
                 OutputStream os = socket.getOutputStream();
                 OutputStreamWriter osw = new OutputStreamWriter(os);
                 BufferedWriter bw = new BufferedWriter(osw);
